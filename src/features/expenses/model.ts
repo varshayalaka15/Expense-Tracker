@@ -45,10 +45,10 @@ export function periodTotals(expenses: Pick<Expense, 'date' | 'amountCents'>[], 
     return totals
   }, { week: 0, month: 0 })
 }
-export function makeSamples(): Expense[] {
+export function makeSamples(baseUrl = '/'): Expense[] {
   const rows: [string, Category, number, string, number][] = [['Weekly grocery run', 'Groceries', 6845, 'Alex', 0], ['Electricity bill', 'Utilities', 9200, 'Sam', 1], ['Bus passes', 'Transport', 2400, 'Alex', 2], ['Kitchen essentials', 'Household', 3275, 'Sam', 3], ['Fruit & vegetables', 'Groceries', 1860, 'Alex', 4]]
   return rows.map(([description, category, amountCents, paidBy, days], index) => {
     const date = new Date(); date.setDate(date.getDate() - days)
-    return { id: `sample-${index}`, createdAt: 5 - index, date: localDate(date), description, category, amountCents, paidBy, notes: 'Sample expense for the frontend preview. The attached image is an illustrative bill.', sample: true, receipt: { url: '/sample-receipt.svg', name: 'illustrative-sample-bill.svg', size: 0 } }
+    return { id: `sample-${index}`, createdAt: 5 - index, date: localDate(date), description, category, amountCents, paidBy, notes: 'Sample expense for the frontend preview. The attached image is an illustrative bill.', sample: true, receipt: { url: `${baseUrl}sample-receipt.svg`, name: 'illustrative-sample-bill.svg', size: 0 } }
   })
 }

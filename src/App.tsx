@@ -9,7 +9,7 @@ import './App.css'
 
 export default function App() {
   const [now] = useState(() => new Date())
-  const [expenses, setExpenses] = useState<Expense[]>(makeSamples)
+  const [expenses, setExpenses] = useState<Expense[]>(() => makeSamples(import.meta.env.BASE_URL))
   const [page, setPage] = useState<'overview' | 'expenses'>('overview')
   const [filter, setFilter] = useState<Category | 'All'>('All')
   const [adding, setAdding] = useState(false)

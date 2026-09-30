@@ -52,6 +52,19 @@ package-lock.json    Reproducible dependency versions
 
 Add feature folders under `src/` as each feature is implemented. No database account or environment variables are needed for this preview. The dashboard date is fixed at page load; reload after midnight to use the new day.
 
+## Temporary hosting on GitHub Pages
+
+The Vite base path is `/Expense-Tracker/`. The sample bill also uses that base path so it works under the repository's Pages address.
+
+1. In the GitHub repository, open **Settings → Pages** and set **Source** to **GitHub Actions**. Availability depends on your repository visibility and GitHub plan.
+2. Commit and push the Pages configuration to `main`.
+3. In **Actions**, wait for **Deploy frontend to GitHub Pages** to finish. You can also run it manually through **Run workflow**.
+4. Open `https://varshayalaka15.github.io/Expense-Tracker/`.
+
+The workflow installs dependencies, runs lint/tests, builds the frontend, and deploys only `dist/`. No database, secrets, or paid hosting service are needed. GitHub Pages serves the app publicly; each visitor's newly entered expenses and photos remain only in that visitor's browser memory and reset on reload.
+
+If the repository name or hosting path changes, update `base` in `vite.config.ts`. Local development and preview use the same `/Expense-Tracker/` path; open the URL printed by Vite.
+
 ## Manual checks
 
 1. Open Add Expense and submit without fields: verify field errors and keyboard focus.
