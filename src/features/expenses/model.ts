@@ -1,12 +1,13 @@
 export const categories = ['Groceries', 'Utilities', 'Transport', 'Household', 'Other'] as const
 export type Category = typeof categories[number]
-export interface Receipt { url: string; name: string; size: number }
+export interface Receipt { url: string; name: string; size: number; path?: string }
 export interface ExpenseDraft { date: string; description: string; category: Category; amountCents: number; paidBy: string; notes: string }
-export interface Expense extends ExpenseDraft { id: string; createdAt: number; receipt: Receipt; sample: boolean }
+export interface Expense extends ExpenseDraft { id: string; ownerId?: string; uploaderEmail?: string; createdAt: number; receipt: Receipt; sample: boolean }
 export interface FormValues { date: string; description: string; category: string; amount: string; paidBy: string; notes: string }
 export type FormErrors = Partial<Record<keyof FormValues | 'receipt', string>>
 export const maxReceiptBytes = 10 * 1024 * 1024
 export const receiptTypes = ['image/jpeg', 'image/png', 'image/webp']
+export class UnconfirmedSaveError extends Error {}
 export function localDate(date: Date) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}` }
 export const today = () => localDate(new Date())
 export function parseAmount(value: string): number | null {
@@ -22,9 +23,12 @@ export function validateForm(values: FormValues, receiptReady: boolean, currentD
   const parsedDate = new Date(`${values.date}T12:00:00`)
   if (!/^\d{4}-\d{2}-\d{2}$/.test(values.date) || Number.isNaN(parsedDate.getTime()) || localDate(parsedDate) !== values.date || values.date > currentDate) errors.date = 'Choose a valid date on or before today.'
   if (!values.description.trim()) errors.description = 'Enter the store or a description.'
+  else if (values.description.trim().length > 160) errors.description = 'Keep the description within 160 characters.'
   if (!categories.includes(values.category as Category)) errors.category = 'Choose a category.'
   if (parseAmount(values.amount.trim()) === null) errors.amount = 'Enter a positive amount with up to two decimal places (maximum $99,999,999.99).'
   if (!values.paidBy.trim()) errors.paidBy = 'Enter the name of the person who paid.'
+  else if (values.paidBy.trim().length > 80) errors.paidBy = 'Keep the payer name within 80 characters.'
+  if (values.notes.trim().length > 1000) errors.notes = 'Keep notes within 1,000 characters.'
   if (!receiptReady) errors.receipt = 'Attach a readable bill photo before saving.'
   return errors
 }

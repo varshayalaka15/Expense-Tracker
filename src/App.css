@@ -1,4 +1,24 @@
 .app-shell { display:flex; min-height:100svh; }
+.auth-page { min-height:100svh; display:grid; place-items:center; padding:24px; }
+.auth-card { width:100%; max-width:440px; padding:32px; }
+.auth-card h1 { margin-top:12px; }
+.auth-intro { color:var(--color-muted); font-size:14px; line-height:1.6; margin:16px 0 24px; }
+.auth-card form { display:flex; flex-direction:column; gap:18px; }
+.auth-card>.receipt-help { margin-top:24px; }
+.expense-fieldset { padding:0; margin:0; border:0; min-width:0; }
+.account-controls { display:flex; gap:12px; align-items:center; min-width:0; }
+.account-email { font-size:12px; overflow-wrap:anywhere; }
+.portal-actions { display:flex; flex-wrap:wrap; gap:10px; }
+a.button { text-decoration:none; }
+.admin-filters { display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-bottom:24px; }
+.admin-filters>span { font-size:12px; color:var(--color-muted); }
+.admin-filters select { max-width:min(320px,70vw); }
+.loading-panel { padding:32px; display:flex; flex-direction:column; align-items:flex-start; gap:16px; }
+.button.danger { border-color:#d8b4b4; background:#fff5f5; color:#912e2e; }
+.delete-confirm { padding:20px 28px; background:#fff5f5; font-size:13px; }
+.delete-confirm>div { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+.preview-note>.text-button { margin-left:auto; }
+@media(max-width:760px) { .account-email { display:none; }.account-controls .button { padding:8px 12px; font-size:11px; }.auth-card { padding:24px; }.delete-confirm { padding:20px; } }
 .icon { width:20px; height:20px; flex-shrink:0; }
 .sidebar { width:240px; padding:38px 24px 24px; background:#fff; border-right:1px solid var(--color-line); display:flex; flex-direction:column; flex-shrink:0; }
 .brand { display:flex; gap:12px; align-items:center; color:var(--color-ink); text-decoration:none; line-height:1.2; font-size:19px; }

@@ -27,6 +27,11 @@ test('receipt file types and size boundaries are enforced', () => {
   assert.ok(validateReceipt({ type: 'image/png', size: maxReceiptBytes + 1 }))
   assert.ok(validateReceipt({ type: 'image/png', size: 0 }))
 })
+test('text lengths match the database limits', () => {
+  assert.ok(validateForm({ ...valid, description: 'x'.repeat(161) }, true, '2026-09-29').description)
+  assert.ok(validateForm({ ...valid, paidBy: 'x'.repeat(81) }, true, '2026-09-29').paidBy)
+  assert.ok(validateForm({ ...valid, notes: 'x'.repeat(1001) }, true, '2026-09-29').notes)
+})
 test('weeks start Monday and future spending is excluded', () => {
   const expenses = [{ date: '2026-09-27', amountCents: 100 }, { date: '2026-09-28', amountCents: 10 }, { date: '2026-09-29', amountCents: 20 }, { date: '2026-09-30', amountCents: 500 }]
   assert.deepEqual(periodTotals(expenses, new Date(2026, 8, 29)), { week: 30, month: 130 })
